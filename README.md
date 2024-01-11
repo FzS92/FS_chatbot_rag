@@ -39,7 +39,7 @@ conda activate fschat
 pip install -r requirements.txt
 ```
 
-Optional: To enhance efficiency and reduce memory usage, you may want to install the following dependencies:
+Optional: To enhance efficiency and reduce memory usage, you can install the following dependencies:
 
 ```python
 git clone https://github.com/Dao-AILab/flash-attention
