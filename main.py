@@ -28,7 +28,7 @@ Author:
 
 import gradio as gr
 
-from src.chat_model import chatbot
+from src import chatbot
 
 
 class FinancialChatbotApp:

@@ -18,8 +18,6 @@ from torch.nn.functional import cosine_similarity
 
 from .model_tokenizer import text_summarization
 
-# from .model_tokenizer import finance_summarize_model_tokenizer
-
 
 def remove_extra_newlines(string: str) -> str:
     """
@@ -45,7 +43,8 @@ def separate_paragraphs(text: str) -> List[str]:
         List[str]: A list of unique paragraphs from the input text.
     """
     paragraphs = text.split("\n")
-    return list(set(paragraphs))
+    paragraphs = list(set(paragraphs))
+    return [s for s in paragraphs if s != "" or s != ""]
 
 
 def filter_strings_by_word_count(strings: List[str]) -> List[str]:
