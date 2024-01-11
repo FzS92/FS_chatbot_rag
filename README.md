@@ -14,8 +14,8 @@ The financial chatbot follows the following workflow to ensure efficiency, accur
 3. **Google Search**: Perform a Google search to extract the top 3 results within a specific time frame.
 4. **Web Scraping**: Utilize Selenium to extract text content from the searched websites (Chrome installation required).
 5. **Text Refinement**: Eliminate short paragraphs, duplicates, and unnecessary new lines to ensure superior information quality from web scraping.
-6. **Semantic Search**: Employ the robust *"all-mpnet-base-v2"* model for encoding the user query and online sources, enhancing semantic search capabilities.
-7. **Summarization (Again)**: Independently summarize each paragraph to prevent information loss and optimize chatbot responsiveness.
+6. **Semantic Search**: Employ the robust 'all-mpnet-base-v2' model to encode the user query and online sources, thereby enhancing semantic search capabilities. Utilize the most relevant parts of the new sources.
+7. **Summarization (Again)**: Independently summarize top-related paragraphs to prevent information loss and optimize the responsiveness of the chatbot.
 8. **Prompt Engineering**: Combine the user query and summarized paragraphs using prompt engineering.
 9. **Qwen Model**: Leverage the high-quality *"Qwen/Qwen-14B-Chat-Int4"* model for response generation.
 10. **Response and References**: Provide the user with the generated response and references.
