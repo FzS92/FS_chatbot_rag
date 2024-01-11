@@ -49,7 +49,6 @@ pip install csrc/rotary
 ```
 
 
-```
 3. Run the `main.py` script.
 
 ```python
