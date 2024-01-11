@@ -8,8 +8,9 @@ References: My GitHub repository:
 https://github.com/FzS92/SemanticSearch/
 """
 
+import logging
 import re
-from typing import List, Optional
+from typing import List
 
 import torch
 from sentence_transformers import SentenceTransformer
@@ -50,6 +51,7 @@ def separate_paragraphs(text: str) -> List[str]:
 def filter_strings_by_word_count(strings: List[str]) -> List[str]:
     """
     Filter a list of strings to remove elements with 22 words or less.
+    It's a function to remove short paragraphs.
 
     Parameters:
     - strings (List[str]): The input list of strings.
@@ -57,7 +59,8 @@ def filter_strings_by_word_count(strings: List[str]) -> List[str]:
     Returns:
     - List[str]: The filtered list of strings.
     """
-    filtered_strings = [s for s in strings if len(s.split()) > 22]
+    min_number_of_words = 22
+    filtered_strings = [s for s in strings if len(s.split()) > min_number_of_words]
     return filtered_strings
 
 
@@ -127,7 +130,7 @@ def semantic_search(
         model_name (str): The name of the SentenceTransformer model.
                           "all-mpnet-base-v2" is recommended.
         mode (str): Search for most similar sentences or paragraphs?
-        searching_for (str): The text to search for.
+        searching_for (str): The text to search for (query).
         text (str): The corpus of text to search in.
         n_similar_texts (int) = number of top search results
 
@@ -169,11 +172,14 @@ def semantic_search(
         except:
             pass
 
-    print("=" * 10)
-    print("Top paragraphs search results before summarization:" + old_output)
-    print("=" * 10)
-    print("Top paragraphs search results after summarization:" + output)
-    print("=" * 10)
+    # Configuring logging
+    logging.basicConfig(level=logging.INFO)
+
+    logging.info("=" * 10)
+    logging.info("Top paragraphs search results before summarization:\n" + old_output)
+    logging.info("=" * 10)
+    logging.info("Top paragraphs search results after summarization:\n" + output)
+    logging.info("=" * 10)
 
     return output
 
@@ -199,60 +205,3 @@ def summarize_text(
             text, max_length=max_length, min_length=min_length, do_sample=do_sample
         )
     return summary[0]["summary_text"]
-
-
-# def generate_summary(
-#     text: str, max_length: int = 20, num_beams: int = 5, early_stopping: bool = True
-# ) -> str:
-#     """
-#     Generate a summary using the Pegasus model.
-
-#     Parameters:
-#         text (str): The input text to be summarized.
-#         max_length (int, optional): The maximum length of the generated summary. Defaults to 32.
-#         num_beams (int, optional): The number of beams for beam search. Defaults to 5.
-#         early_stopping (bool, optional): Whether to stop generation when at least one beam has finished. Defaults to True.
-
-#     Returns:
-#         str: The generated summary.
-#     """
-#     # Load the model and the tokenizer
-#     model, tokenizer = finance_summarize_model_tokenizer()
-
-#     # Tokenize the input text
-#     input_ids = tokenizer(text, return_tensors="pt").input_ids
-#     if input_ids.shape[1] > 512:
-#         # input_ids = torch.cat((input_ids[:, :511], input_ids[:, -1:]), dim=1)
-#         input_ids = input_ids[:, :512]
-
-#     # Generate the output using the model
-#     output = model.generate(
-#         input_ids,
-#         max_length=max_length,
-#         num_beams=num_beams,
-#         early_stopping=early_stopping,
-#     )
-
-#     # Decode and return the generated summary
-#     return tokenizer.decode(output[0], skip_special_tokens=True)
-
-
-# def generate_summary(text: str) -> str:
-#     """
-#     Function to summarize.
-
-#     Parameters:
-#     - model_name (str): The name or path of the pretrained language model.
-#     - user_query (str): The user's input query to the chatbot.
-
-#     Returns:
-#     - Tuple[str, List[str]]: A tuple containing the model's response and the updated conversation history.
-#     """
-
-#     # Add "summarize: " prefix to the user query
-#     text = f"Summarize: {text}"
-
-#     model, tokenizer = chat_model_tokenizer()
-#     response, _ = model.chat(tokenizer, text, history=[])
-
-#     return response

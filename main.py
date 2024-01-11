@@ -1,5 +1,5 @@
 """
-This script launches a Gradio ChatInterface for a financial chatbot.The chatbot
+This script launches a Gradio ChatInterface for a financial chatbot. The chatbot
 utilizes various methods for chatbot simulation, text summarization, web scraping, and semantic search.
 
 Usage:
@@ -31,33 +31,39 @@ import gradio as gr
 from src.chat_model import chatbot
 
 
-def main():
-    iface = gr.ChatInterface(
-        title="Financial Chatbot with Retrieval-Augmented Generation (RAG)",
-        fn=chatbot,
-        chatbot=gr.Chatbot(height=750),
-        textbox=gr.Textbox(placeholder="Ask me a question", container=False, scale=7),
-        description="Ask financial questions!",
-        theme="soft",
-        # examples=["What is the price of S&P", "Am I cool?", "Are tomatoes vegetables?"],
-        # cache_examples=True,
-        retry_btn=None,
-        undo_btn="Delete Previous",
-        clear_btn="Clear",
-        additional_inputs=[
-            gr.Checkbox(label="Google search for the next message?", value=True),
-            gr.Dropdown(
-                choices=["All", "Year", "Month", "Week", "Day", "Hour"],
-                label="Search Time Frame",
-                value="All",
+class FinancialChatbotApp:
+    def __init__(self):
+        self.chatbot = chatbot
+
+    def main(self):
+        iface = gr.ChatInterface(
+            title="Financial Chatbot with Retrieval-Augmented Generation (RAG)",
+            fn=self.chatbot,
+            chatbot=gr.Chatbot(height=750),
+            textbox=gr.Textbox(
+                placeholder="Ask me a question", container=False, scale=7
             ),
-            # Add other input components as needed
-        ],
-        additional_inputs_accordion=gr.Accordion(
-            open=True, label="Do you want to use online sources?"
-        ),
-    ).launch(share=False)
+            description="Ask financial questions!",
+            theme="soft",
+            # examples=["What is the price of S&P", "Am I cool?", "Are tomatoes vegetables?"],
+            # cache_examples=False,
+            retry_btn=None,
+            undo_btn="Delete Previous",
+            clear_btn="Clear",
+            additional_inputs=[
+                gr.Checkbox(label="Google search for the next message?", value=True),
+                gr.Dropdown(
+                    choices=["All", "Year", "Month", "Week", "Day", "Hour"],
+                    label="Search Time Frame",
+                    value="All",
+                ),
+            ],
+            additional_inputs_accordion=gr.Accordion(
+                open=True, label="Do you want to use online sources?"
+            ),
+        ).launch(share=False)
 
 
 if __name__ == "__main__":
-    main()
+    app = FinancialChatbotApp()
+    app.main()

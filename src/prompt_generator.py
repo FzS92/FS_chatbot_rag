@@ -5,28 +5,28 @@ The `prompt_with_rag` function utilizes online search and semantic search to ret
 relevant information.
 """
 
-from typing import List
+from typing import List, Tuple
 
-# import torch
 from .online_search import get_website_text, google_search
 from .semantic_search import semantic_search
-
-# from .model_tokenizer import chat_model_tokenizer
 
 
 def prompt_with_rag(
     query: str, use_google: bool, search_time: str, num_results: int = 3
-) -> str:
+) -> Tuple[str, List]:
     """
     Get information from online sources related to the given query.
 
     Parameters:
     - query (str): The user's query.
+    - use_google (bool): Whether to use Google search.
+    - search_time (str): The time range for the search.
     - num_results (int): The maximum number of online search results to consider.
 
     Returns:
-    - str: A string which is prompt engineering of the user query + information retrieved from online sources.
+    - Tuple[str, List[str]]: A tuple containing prompt and a list of URLs.
     """
+    max_prompt_length = 500  # To avoid very long prompts
 
     all_urls = ""
     answer = ""
@@ -37,7 +37,7 @@ def prompt_with_rag(
             num_results, len(all_urls)
         )  # Making sure that we got some results
 
-        while len(answer.split()) < 500 and loop_count < num_results:
+        while len(answer.split()) < max_prompt_length and loop_count < num_results:
             url_in_use = all_urls[loop_count]
             top_text = get_website_text(url_in_use)
 

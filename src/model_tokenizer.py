@@ -1,10 +1,6 @@
 from typing import Optional, Tuple
 
-from transformers import (  # PegasusForConditionalGeneration,; PegasusTokenizer,; TFPegasusForConditionalGeneration,
-    AutoModelForCausalLM,
-    AutoTokenizer,
-    pipeline,
-)
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
 chat_model = None
 chat_tokenizer = None
@@ -37,7 +33,7 @@ def chat_model_tokenizer(
 
 def text_summarization(
     model_name: str = "Falconsai/text_summarization",
-) -> Tuple[pipeline, Optional[AutoTokenizer]]:
+) -> Tuple[pipeline, None]:
     """
     Load a text summarization model and tokenizer.
 
@@ -54,22 +50,3 @@ def text_summarization(
         summarize_tokenizer = None  # No need
 
     return summarize_model, summarize_tokenizer
-
-
-# We can also use the following code to load a financial summarization model but the above model is better!
-
-# def finance_summarize_model_tokenizer():
-#     # Load the model and the tokenizer
-#     global summarize_model, summarize_tokenizer
-
-#     model_name = "human-centered-summarization/financial-summarization-pegasus"
-
-#     if summarize_tokenizer is None or summarize_model is None:
-#         summarize_tokenizer = PegasusTokenizer.from_pretrained(
-#             model_name
-#         )  # padding='max_length', truncation=True, max_length=512)
-#         summarize_model = PegasusForConditionalGeneration.from_pretrained(
-#             model_name
-#         ).eval()
-
-#     return summarize_model, summarize_tokenizer

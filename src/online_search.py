@@ -9,6 +9,7 @@ Functions:
   specified number of results.
 """
 
+import logging
 from typing import List
 
 from googlesearch import search
@@ -24,10 +25,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from .model_tokenizer import text_summarization
 
-# from .model_tokenizer import finance_summarize_model_tokenizer
-
-# import requests
-# from bs4 import BeautifulSoup
+# logging configuration
+logging.basicConfig(level=logging.INFO)
 
 
 def get_website_text(
@@ -65,7 +64,7 @@ def get_website_text(
         driver.implicitly_wait(max_wait_time)
 
         # Open the website
-        print("URL is: " + url)
+        logging.info("URL is: %s", url)
         driver.get(url)
 
         try:
@@ -74,23 +73,12 @@ def get_website_text(
                 EC.presence_of_element_located((By.XPATH, "/html/body"))
             )
         except TimeoutException:
-            pass
+            logging.warning("Page load timed out for URL: %s", url)
 
         # Extract the text from the entire page
         page_text = driver.find_element(By.XPATH, "/html/body").text  # type: WebElement
 
         return page_text
-
-
-# def get_website_text(url):
-#     try:
-#         response = requests.get(url)
-#         soup = BeautifulSoup(response.text, "html.parser")
-#         text = soup.get_text()
-#         return text
-#     except Exception as e:
-#         print(f"Error fetching text from {url}: {e}")
-#         return None
 
 
 def google_search(
@@ -111,9 +99,9 @@ def google_search(
     # Check if the number of words is more than 10
     if len(query.split()) > 10:
         # If more than 10 words, feed it to the generate_summary method
-        print("Qury to send before sending to Google:\n" + query)
+        logging.info("Query to send before sending to Google:\n%s", query)
         query = summarize_text(query)
-        print("\nQuery to Google after summarization: " + query)
+        logging.info("Query to Google after summarization: %s", query)
 
     dic_time = {
         "All": "a",
@@ -143,6 +131,8 @@ def summarize_text(
 ) -> str:
     """
     Summarizes the input text using the Hugging Face summarization pipeline.
+    For better Google search, min length can be in range of 1 to 3.
+    But should not be very long. (chosen 25 by experiments)
 
     Args:
         text (str): The input text to be summarized.
@@ -158,27 +148,3 @@ def summarize_text(
         text, max_length=max_length, min_length=min_length, do_sample=do_sample
     )
     return summary[0]["summary_text"]
-
-
-# def generate_summary(
-#     text: str, max_length: int = 20, num_beams: int = 5, early_stopping: bool = True
-# ) -> str:
-#     # Load the model and the tokenizer
-#     model, tokenizer = finance_summarize_model_tokenizer()
-
-#     # Tokenize the input text
-#     input_ids = tokenizer(text, return_tensors="pt").input_ids
-#     if input_ids.shape[1] > 512:
-#         # input_ids = torch.cat((input_ids[:, :511], input_ids[:, -1:]), dim=1)
-#         input_ids = input_ids[:, :512]
-
-#     # Generate the output using the model
-#     output = model.generate(
-#         input_ids,
-#         max_length=max_length,
-#         num_beams=num_beams,
-#         early_stopping=early_stopping,
-#     )
-
-#     # Decode and return the generated summary
-#     return tokenizer.decode(output[0], skip_special_tokens=True)
