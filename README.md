@@ -32,7 +32,7 @@ cd FS_chatbot_rag
 ```
 
 
-3. Create a new enviornment and install the required dependencies:
+2. Create a new enviornment and install the required dependencies:
 ```python
 conda create -n fschat python=3.8
 conda activate fschat
