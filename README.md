@@ -27,8 +27,8 @@ To employ the financial chatbot, follow these simple steps:
 
 1. Clone the repository and go to the downloaded file.
 ```python
-git clone https://github.com/FzS92/chatbot_rag.git
-cd chatbot_rag
+git clone https://github.com/FzS92/FS_chatbot_rag.git
+cd FS_chatbot_rag
 ```
 
 
