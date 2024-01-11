@@ -26,8 +26,13 @@ To employ the financial chatbot, follow these simple steps:
 
 
 1. Clone the repository and go to the downloaded file.
+```python
+git clone https://github.com/FzS92/chatbot_rag.git
+cd chatbot_rag
+```
 
-2. Create a new enviornment and install the required dependencies:
+
+3. Create a new enviornment and install the required dependencies:
 ```python
 conda create -n fschat python=3.8
 conda activate fschat
