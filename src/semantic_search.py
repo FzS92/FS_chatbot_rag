@@ -44,7 +44,7 @@ def separate_paragraphs(text: str) -> List[str]:
     """
     paragraphs = text.split("\n")
     paragraphs = list(set(paragraphs))
-    return [s for s in paragraphs if s != "" or s != ""]
+    return [s for s in paragraphs if s != ""]
 
 
 def filter_strings_by_word_count(strings: List[str]) -> List[str]:
@@ -123,8 +123,8 @@ def semantic_search(
 ) -> str:
     """
     Perform semantic search by measuring the similarity between the
-    searching_for text and the text corpus.
-    Also summarize each paragraph independently to prevent information loss. 
+    query and the text corpus.
+    Also summarize each paragraph independently to prevent information loss.
 
     Args:
         model_name (str): The name of the SentenceTransformer model.
@@ -135,7 +135,7 @@ def semantic_search(
         n_similar_texts (int) = number of top search results
 
     Returns:
-        str: The search results as a formatted string.
+        str: The search results as a formatted string, and also summarized.
     """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = SentenceTransformer(model_name).to(device)
@@ -152,8 +152,8 @@ def semantic_search(
 
     encoded = encode_text(search_and_text, model)
 
-    encoded_search = encoded[0]  # Encode of searching_for
-    encoded_text = encoded[1:]  # Encode of text
+    encoded_search = encoded[0]  # Encode of query
+    encoded_text = encoded[1:]  # Encode of corpus text
 
     n_similar_texts = min(n_similar_texts, len(text))
 
@@ -161,17 +161,15 @@ def semantic_search(
         encoded_search, encoded_text, n_similar_texts
     )
 
-    # output = f"Top {n_similar_texts} are as follows:\n\n"
     output = ""
     old_output = ""
     for i in range(n_similar_texts):
-        # output += f"Match number {i+1}:\n"
         try:
             old_output += text[index_of_similar[i]] + "\n\n"
             # Summarize each paragraph independently to prevent information loss
             output += summarize_text(text[index_of_similar[i]]) + "\n\n"
         except:
-            pass  # If the paragraph is too short, it will be ignored
+            pass  # If all the paragraphs were too short, or there was no text,it will be ignored
 
     # Configuring logging
     logging.basicConfig(level=logging.INFO)
@@ -196,7 +194,7 @@ def summarize_text(
         text (str): The input text to be summarized.
         max_length (int, optional): The maximum length of the summary. Defaults to 230.
         min_length (int, optional): The minimum length of the summary. Defaults to 15.
-        do_sample (bool, optional): If True, uses sampling to generate the summary. Defaults to False.
+        do_sample (bool, optional): If True, uses sampling to generate the summary.
 
     Returns:
         str: The summarized text.

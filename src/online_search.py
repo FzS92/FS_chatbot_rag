@@ -3,10 +3,9 @@ This script provides functions for extracting text content from websites using S
 performing Google searches to retrieve URLs based on a specified query.
 
 Functions:
-- get_website_text(url, chrome_driver_path=None, max_wait_time=10): Extracts text content
-  from a given website using Selenium.
+- get_website_text: Extracts text content from a given website using Selenium.
 - google_search(query, num_results=3): Performs a Google search and retrieves URLs for the
-  specified number of results.
+  specified number of results. Considering the time frame.
 """
 
 import logging
@@ -45,8 +44,8 @@ def get_website_text(
     - str: The extracted text content from the entire page.
     """
     # Set up Chrome options and service to extract text only
-    # No UI, to run on server but some websites may block headless browsers.
-    # (Didn't happen in my experiments)
+    # No UI, to run on server.
+    # (A very small number of websites may block headless browsers)
     chrome_options = ChromeOptions()
     chrome_options.add_argument("--headless")  # No UI, to run on server
     chrome_options.add_argument(
@@ -140,9 +139,9 @@ def summarize_text(
 
     Args:
         text (str): The input text to be summarized.
-        max_length (int, optional): The maximum length of the summary. Defaults to 25.
-        min_length (int, optional): The minimum length of the summary. Defaults to 3.
-        do_sample (bool, optional): If True, uses sampling to generate the summary. Defaults to False.
+        max_length (int): The maximum length of the summary. Defaults to 25.
+        min_length (int): The minimum length of the summary. Defaults to 3.
+        do_sample (bool): If True, uses sampling to generate the summary.
 
     Returns:
         str: The summarized text.
