@@ -2,13 +2,6 @@
 
 This is a Python-based financial chatbot equipped with **Retrieval-Augmented Generation (RAG)**. The chatbot seamlessly interacts with users, addressing financial queries by combining the top insights from online sources with the user's input.
 
-## Table of Contents
-- [Overview](#overview)
-- [Usage](#usage)
-  - [Installation](#installation)
-  - [Running the Chatbot](#running-the-chatbot)
-- [Optional Dependencies](#optional-dependencies)
-
 ## Overview
 
 ![ScreenShot](./photos/app.png)
