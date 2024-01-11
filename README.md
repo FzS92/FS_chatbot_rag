@@ -55,5 +55,4 @@ pip install csrc/rotary
 python main.py
 ```
 
-You will see some links in the terminal. Launch the Gradio ChatInterface (first link).
-Pose financial questions, and witness the chatbot respond with the top online information.
+You will see some links in the terminal. Click on the first link to launch the Gradio ChatInterface. Pose financial questions and witness the chatbot responding with the top online information!
