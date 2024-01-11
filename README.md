@@ -1,6 +1,6 @@
 # Financial Chatbot with Retrieval-Augmented Generation (RAG)
 
-This is a Python-based financial chatbot equipped with **Retrieval-Augmented Generation (RAG)**. The chatbot seamlessly interacts with users, addressing financial queries by amalgamating the top insights from online sources with the user's input.
+This is a Python-based financial chatbot equipped with **Retrieval-Augmented Generation (RAG)**. The chatbot seamlessly interacts with users, addressing financial queries by combining the top insights from online sources with the user's input.
 
 ## Overview
 
@@ -11,7 +11,7 @@ The financial chatbot follows the following workflow to ensure efficiency, accur
 
 1. **User Query**: Receive and process the user's financial question.
 2. **Summarization**: Summerize lengthy user prompts for an enhanced online search experience.
-3. **Google Search**: Perform an online search to extract the top 3 results from Google.
+3. **Google Search**: Perform a Google search to extract the top 3 results within a specific time frame.
 4. **Web Scraping**: Utilize Selenium to extract text content from the searched websites (Chrome installation required).
 5. **Text Refinement**: Eliminate short paragraphs, duplicates, and unnecessary new lines to ensure superior information quality from web scraping.
 6. **Semantic Search**: Employ the robust *"all-mpnet-base-v2"* model for encoding the user query and online sources, enhancing semantic search capabilities.
