@@ -41,6 +41,7 @@ def prompt_with_rag(
             url_in_use = all_urls[loop_count]
             top_text = get_website_text(url_in_use)
 
+            # Get the top answers ans also summarize them
             top_answers = semantic_search(
                 model_name="all-mpnet-base-v2",
                 mode="Paragraph",

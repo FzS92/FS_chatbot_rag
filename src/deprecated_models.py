@@ -1,3 +1,9 @@
+"""
+In this file, we will store all the deprecated models that we have used in the past.
+All the models that are currently used are in other src files.
+"""
+
+
 ## summarization model
 
 # We can also use the following code to load a financial summarization model but the current used model is better!

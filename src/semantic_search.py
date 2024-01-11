@@ -124,6 +124,7 @@ def semantic_search(
     """
     Perform semantic search by measuring the similarity between the
     searching_for text and the text corpus.
+    Also summarize each paragraph independently to prevent information loss. 
 
     Args:
         model_name (str): The name of the SentenceTransformer model.
@@ -167,13 +168,15 @@ def semantic_search(
         # output += f"Match number {i+1}:\n"
         try:
             old_output += text[index_of_similar[i]] + "\n\n"
+            # Summarize each paragraph independently to prevent information loss
             output += summarize_text(text[index_of_similar[i]]) + "\n\n"
         except:
-            pass
+            pass  # If the paragraph is too short, it will be ignored
 
     # Configuring logging
     logging.basicConfig(level=logging.INFO)
 
+    # Log the top paragraphs search results before and after summarization
     logging.info("=" * 10)
     logging.info("Top paragraphs search results before summarization:\n" + old_output)
     logging.info("=" * 10)

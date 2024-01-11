@@ -29,6 +29,7 @@ def chatbot(user_query: str, history: List, use_google: bool, search_time: str) 
     except Exception as e:
         return f"Error generating prompt: {str(e)}"
 
+    # Prompt engineering for the financial chatbot
     new_user_query = (
         "You are an expert financial ChatBot, respond to the user message and feel"
         " free to use the extra given online source information during the"

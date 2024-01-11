@@ -45,11 +45,15 @@ def get_website_text(
     - str: The extracted text content from the entire page.
     """
     # Set up Chrome options and service to extract text only
+    # No UI, to run on server but some websites may block headless browsers.
+    # (Didn't happen in my experiments)
     chrome_options = ChromeOptions()
-    chrome_options.add_argument("--headless")  # No UI
-    chrome_options.add_argument("--blink-settings=imagesEnabled=false")  # Not images
-    chrome_options.add_argument("--disable-javascript")  # No JS
-    chrome_options.add_argument("--disable-plugins")  # No plugins
+    chrome_options.add_argument("--headless")  # No UI, to run on server
+    chrome_options.add_argument(
+        "--blink-settings=imagesEnabled=false"
+    )  # Not images, only text & faster
+    chrome_options.add_argument("--disable-javascript")  # No JS (faster)
+    chrome_options.add_argument("--disable-plugins")  # No plugins (faster)
     chrome_service = (
         ChromeService(executable_path=chrome_driver_path)
         if chrome_driver_path
@@ -95,10 +99,10 @@ def google_search(
     Returns:
     List[str]: A list containing the search results.
     """
-
-    # Check if the number of words is more than 10
-    if len(query.split()) > 10:
-        # If more than 10 words, feed it to the generate_summary method
+    max_user_query_len = 10
+    # Check if the number of words in user's quey is more than max_user_query_len
+    if len(query.split()) > max_user_query_len:
+        # If more than max_user_query_len, summarize it.
         logging.info("Query to send before sending to Google:\n%s", query)
         query = summarize_text(query)
         logging.info("Query to Google after summarization: %s", query)

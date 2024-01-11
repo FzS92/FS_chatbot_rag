@@ -1,7 +1,12 @@
+"""
+This module provides functions for loading chat-based language models and text summarization models.
+"""
+
 from typing import Optional, Tuple
 
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
+# To prevent loading the same model multiple times, we use global variables.
 chat_model = None
 chat_tokenizer = None
 summarize_model = None
